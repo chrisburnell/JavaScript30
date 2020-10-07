@@ -1,0 +1,33 @@
+const { DateTime } = require("luxon");
+
+module.exports = function(config) {
+    const now = new Date();
+    config.setDataDeepMerge(true);
+
+    // Pass through files
+    config.addPassthroughCopy("css");
+    config.addPassthroughCopy("images");
+    config.addPassthroughCopy("sounds");
+
+    // Challenges Collection
+    config.addCollection("challenges", function(collection) {
+        return collection.getFilteredByTag("challenge");
+    });
+
+    config.addFilter("dateFormat", (value, format = "dd LLLL yyyy") => {
+        return DateTime.fromJSDate(new Date(value)).toFormat(format);
+    });
+    config.addFilter("w3DateFormat", (value, showTimezone = true) => {
+        if (showTimezone) {
+            return DateTime.fromJSDate(new Date(value)).toFormat("yyyy-MM-dd'T'HH:mm:ssZZZ");
+        }
+        return DateTime.fromJSDate(new Date(value)).toFormat("yyyy-MM-dd'T'HH:mm:ss");
+    });
+
+    return {
+        dataTemplateEngine: "njk",
+        htmlTemplateEngine: "njk",
+        markdownTemplateEngine: "njk",
+        passthroughFileCopy: true
+    };
+};

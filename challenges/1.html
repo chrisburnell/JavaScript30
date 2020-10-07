@@ -1,0 +1,108 @@
+---
+title: JavaScript Drum Kit
+lede: I really enjoyed starting this challenge; it was actually a great first challenge for me because I’ve had a lot of fun tinkering with interactions triggering audio events and the Web Audio API. Shout out to <a href="https://rusingh.com/articles/2020/10/07/javascript30-02-wes-bos-course-grouping-operator-hoc/">Ru Singh</a> for putting this on my radar and giving me the push to make it a daily challenge for me!
+date: 2020-10-07T12:00:00+0000
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="/css/one.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div>
+  </div>
+
+  <audio data-key="65" src="/sounds/clap.wav"></audio>
+  <audio data-key="83" src="/sounds/hihat.wav"></audio>
+  <audio data-key="68" src="/sounds/kick.wav"></audio>
+  <audio data-key="70" src="/sounds/openhat.wav"></audio>
+  <audio data-key="71" src="/sounds/boom.wav"></audio>
+  <audio data-key="72" src="/sounds/ride.wav"></audio>
+  <audio data-key="74" src="/sounds/snare.wav"></audio>
+  <audio data-key="75" src="/sounds/tom.wav"></audio>
+  <audio data-key="76" src="/sounds/tink.wav"></audio>
+
+<script>
+    // grab all the keys
+    const keyElements = document.querySelectorAll('.key');
+    // grab all the audio elements
+    const audioElements = document.querySelectorAll('audio');
+    // create an array of represented keys
+    // (this could be done against keyElements or audioElements as they share
+    // the data-key attributes)
+    const keys = [...audioElements].map(item => Number(item.dataset.key));
+
+    window.addEventListener("keydown", event => {
+        // if the keyCode pressed isn't in our array of keys, exit here
+        if (!keys.includes(event.keyCode)) {
+            return;
+        }
+
+        // Without querying the DOM on each keypress, determine the key and
+        // audio elements that match the keyCode pressed
+        let keyElement = [...keyElements].filter(item => {
+            return Number(item.dataset.key) === event.keyCode;
+        })[0];
+        let audioElement = [...audioElements].filter(item => {
+            return Number(item.dataset.key) === event.keyCode;
+        })[0];
+
+        // Add the `playing` class to the key element
+        keyElement.classList.add("playing");
+        // Set the audio position to the beginning for when the user hits the
+        // key before it has finished playing
+        audioElement.currentTime = 0;
+        // Tell the audio element to play
+        audioElement.play();
+        // Using the duration of the audio file, determine after how long to
+        // remove the `playing` class
+        window.setTimeout(() => {
+            // Remove the playing class on the key element
+            keyElement.classList.remove("playing");
+        }, (audioElement.duration * 1000));
+    });
+</script>
+
+
+</body>
+</html>

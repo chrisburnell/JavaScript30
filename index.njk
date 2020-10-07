@@ -1,0 +1,127 @@
+---
+title: "JavaScript30 by Chris Burnell"
+lede: "Welcome to my attempt at this 30-day JavaScript challenge!"
+color: "#5f8aa6"
+---
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://chrisburnell.com/css/main.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗓</text></svg>">
+    <meta name="apple-mobile-web-app-title" content="{{ title }}">
+    <meta name="description" content="{{ lede }}">
+    <meta name="theme-color" content="{{ color }}">
+    <meta name="msapplication-navbutton-color" content="{{ color }}">
+    <meta name="apple-mobile-web-app-status-bar-style" content="{{ color }}">
+    <meta http-equiv="cleartype" content="on">
+    <meta name="robots" content="noindex,nofollow">
+</head>
+<body>
+
+    <a href="#content" class="[ hidden ]">Skip to main content</a>
+
+    <header class="[ header ]">
+        <div class="[ wrap wrap--large ]">
+            <div class="[ logo ]" href="https://chrisburnell.com/" rel="home" title="Chris Burnell">
+                <svg aria-hidden="true" class="[ icon icon--raven ]">
+                    <use xlink:href="/images/sprites.svg#svg--raven"></use>
+                </svg>
+            </div>
+            <nav class="[ navigation ]">
+                <ol class="[ navigation__list ]">
+                    <li>
+                        <a href="https://chrisburnell.com/">My Homepage</a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <article id="content" class="[ content ] [ wrap ] [ page ]">
+            <h1 id="title" class="[ title ]">{{ title }}</h1>
+            <div class="[ details ]">
+                <p>{{ lede }}</p>
+            </div>
+            <div class="[ content__body ]">
+                <h2>The Challenges</h2>
+                <nav class="[ deck ] [ h-feed ]">
+                    {% for item in collections.challenges %}
+                        <article class="[ h-entry ]">
+                            <h3><a class="p-name" href="{{ item.url }}"><small>{{ loop.index }}.</small> {{ item.data.title }}</a></h3>
+                            {% if item.data.lede %}
+                                <p class="p-summary">{{ item.data.lede | safe }}</p>
+                            {% endif %}
+                            <div class="[ deck__meta ]">
+                                <small>published</small>
+                                <a class="[ u-url ]" href="{{ item.url }}" tabindex="-1">
+                                    <time class="[ dt-published ]" datetime="{{ item.date | w3DateFormat }}">{{ item.date | dateFormat }}</time>
+                                </a>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </nav>
+            </div>
+            <div class="[ box ] [ meta ]">
+                <p>Go to <a href="https://javascript30.com/">JavaScript30.com</a> for more details and to get started yourself!</p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="[ footer ]">
+        <div class="[ wrap ]">
+            <div class=" [ author ] [ h-card  p-author ] ">
+                <a class=" [ author__information ] [ u-url u-uid ] " href="https://chrisburnell.com/" rel="author  me">
+                    <picture class=" [ author__image ] [ canada ] ">
+                        <source srcset="/images/avatar.webp 1x,
+                                        /images/avatar@2x.webp 2x,
+                                        /images/avatar@3x.webp 3x,
+                                        /images/avatar@4x.webp 4x"
+                                type="image/webp" />
+                        <img alt="Chris Burnell" class=" [ u-photo ] "
+                            src="/images/avatar.jpg"
+                            srcset="/images/avatar.jpg 1x,
+                                    /images/avatar@2x.jpg 2x,
+                                    /images/avatar@3x.jpg 3x,
+                                    /images/avatar@4x.jpg 4x"
+                            width="100" height="100">
+                    </picture>
+                    <div class=" [ author__name ] ">
+                        <small>about</small>
+                        <span class=" [ anchor ] [ canada ] [ p-name ] ">Chris Burnell</span>
+                    </div>
+                </a>
+                <div class=" [ author__biography ] ">
+                    <p class="[ p-note ]">I’m <span class="canada">Chris Burnell</span>, a <span class="canada">Canadian</span> <span class="p-job-title">Front End Developer</span>, <span class="p-role">Organiser</span> for <a href="https://stateofthebrowser.com"><span class="p-org">London Web Standards</span></a>, <a href="https://bloodbuilder.online/feonir">Elven Sorcerer</a>, and <a href="/projects">rabbit-hole deep-diver</a> living in <span class="p-locality">London, England</span>.</p>
+                    <p><a href="https://github.com/chrisburnell/JavaScript30/tree/master/{{ page.inputPath }}">You can edit this page.</a></p>
+                </div>
+                <a class=" [ u-url ] " href="https://chrisburnell.com/about/" rel="author me" hidden> </a>
+                <data class=" [ p-x-pronoun-nominative ] " value="he" hidden> </data>
+                <data class=" [ p-x-pronoun-oblique ] " value="him" hidden> </data>
+                <data class=" [ p-x-pronoun-possessive ] " value="his" hidden> </data>
+            </div>
+            <ol class="[ footer__navigation ]">
+                <li>
+                    <a id="copyright" href="https://chrisburnell.com/license/" rel="license">© 2020 <span class="[ canada ]">Chris Burnell</span></a>
+                </li>
+                <li>
+                    <a href="https://github.com/chrisburnell" rel="me">GitHub</a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/iamchrisburnell" rel="me">Twitter</a>
+                </li>
+                <li>
+                    <a href="https://codepen.io/chrisburnell" rel="me">CodePen</a>
+                </li>
+                <li>
+                    <a href="https://chrisburnell.com/feed.xml" rel="me">RSS</a>
+                </li>
+            </ol>
+        </div>
+    </footer>
+
+</body>
+</html>

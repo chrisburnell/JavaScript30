@@ -1,0 +1,25 @@
+{
+  "name": "javascript30",
+  "version": "1.0.0",
+  "description": "![](https://javascript30.com/images/JS3-social-share.png)",
+  "scripts": {
+    "build": "ELEVENTY_ENV=production npx @11ty/eleventy",
+    "serve": "npx @11ty/eleventy --serve --quiet",
+    "debug": "cross-env DEBUG=* npx @11ty/eleventy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisburnell/JavaScript30.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrisburnell/JavaScript30/issues"
+  },
+  "homepage": "https://github.com/chrisburnell/JavaScript30#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^0.11.0",
+    "luxon": "^1.25.0"
+  }
+}
