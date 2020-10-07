@@ -58,7 +58,44 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+    // grab all the keys
+    const keyElements = document.querySelectorAll('.key');
+    // grab all the audio elements
+    const audioElements = document.querySelectorAll('audio');
+    // create an array of represented keys
+    // (this could be done against keyElements or audioElements as they share
+    // the data-key attributes)
+    const keys = [...audioElements].map(item => Number(item.dataset.key));
 
+    window.addEventListener("keydown", event => {
+        // if the keyCode pressed isn't in our array of keys, exit here
+        if (!keys.includes(event.keyCode)) {
+            return;
+        }
+
+        // Without querying the DOM on each keypress, determine the key and
+        // audio elements that match the keyCode pressed
+        let keyElement = [...keyElements].filter(item => {
+            return Number(item.dataset.key) === event.keyCode;
+        })[0];
+        let audioElement = [...audioElements].filter(item => {
+            return Number(item.dataset.key) === event.keyCode;
+        })[0];
+
+        // Add the `playing` class to the key element
+        keyElement.classList.add("playing");
+        // Set the audio position to the beginning for when the user hits the
+        // key before it has finished playing
+        audioElement.currentTime = 0;
+        // Tell the audio element to play
+        audioElement.play();
+        // Using the duration of the audio file, determine after how long to
+        // remove the `playing` class
+        window.setTimeout(() => {
+            // Remove the playing class on the key element
+            keyElement.classList.remove("playing");
+        }, (audioElement.duration * 1000));
+    });
 </script>
 
 
