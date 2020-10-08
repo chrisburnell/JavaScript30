@@ -51,7 +51,7 @@ color: "#5f8aa6"
                 <nav class="[ deck ] [ h-feed ]">
                     {% for item in collections.challenges %}
                         <article class="[ h-entry ]">
-                            <h3><a class="p-name" href="{{ item.url }}"><small>{{ loop.index }}.</small> {{ item.data.title }}</a></h3>
+                            <h3><a class="p-name" href="{{ item.url }}"><small>{{ loop.length - loop.index0 }}.</small> {{ item.data.title }}</a></h3>
                             {% if item.data.lede %}
                                 <p class="p-summary">{{ item.data.lede | safe }}</p>
                             {% endif %}

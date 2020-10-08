@@ -11,7 +11,7 @@ module.exports = function(config) {
 
     // Challenges Collection
     config.addCollection("challenges", function(collection) {
-        return collection.getFilteredByTag("challenge");
+        return collection.getFilteredByTag("challenge").reverse();
     });
 
     config.addFilter("dateFormat", (value, format = "dd LLLL yyyy") => {
