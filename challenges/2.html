@@ -109,9 +109,9 @@ date: 2020-10-08T12:00:00+0000
             seconds = now.getSeconds(),
             minutes = now.getMinutes(),
             hours = now.getHours();
-        clock.seconds.element.style = `transform: rotate(${360 / clock.seconds.count * seconds}deg)`;
-        clock.minutes.element.style = `transform: rotate(${360 / clock.minutes.count * minutes}deg)`;
-        clock.hours.element.style = `transform: rotate(${360 / clock.hours.count * hours}deg)`;
+        clock.seconds.element.style.transform = `rotate(${360 / clock.seconds.count * seconds}deg)`;
+        clock.minutes.element.style.transform = `rotate(${360 / clock.minutes.count * minutes}deg)`;
+        clock.hours.element.style.transform = `rotate(${360 / clock.hours.count * hours}deg)`;
     }
 
     setInterval(setTime, 1000);
