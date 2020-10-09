@@ -53,7 +53,7 @@ color: "#5f8aa6"
                         <article class="[ h-entry ]">
                             <h3><a class="p-name" href="{{ item.url }}"><small>{{ loop.length - loop.index0 }}.</small> {{ item.data.title }}</a></h3>
                             {% if item.data.lede %}
-                                <p class="p-summary">{{ item.data.lede | safe }}</p>
+                                <p class="p-summary">{{ item.data.lede | markdownFormat | safe }}</p>
                             {% endif %}
                             <div class="[ deck__meta ]">
                                 <small>published</small>
