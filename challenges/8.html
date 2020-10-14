@@ -1,0 +1,65 @@
+---
+title: Fun with HTML5 Canvas
+lede: This one was fun! Enjoyed thinking about where else I could take these concepts with canvas and tried implementing a very rough map for mouse velocity to lineWidth.
+date: 2020-10-14T11:16:00+0100
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+<canvas id="draw" width="800" height="800"></canvas>
+<script>
+const canvas = document.getElementById("draw");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth - 40;
+canvas.height = window.innerHeight - 40;
+
+ctx.strokeStyle = "black";
+ctx.lineJoin = "round";
+ctx.lineCap = "round";
+ctx.lineWidth = 10;
+// ctx.globalCompositeOperation = "multiply";
+
+let isDrawing = false;
+let lastX = 0;
+let lastY = 0;
+let hue = 0;
+let velocity = 0;
+
+function range(number, oldMinimum, oldMaximum, newMinimum, newMaximum) {
+    return (number - oldMinimum) / (oldMaximum - oldMinimum) * (newMaximum - newMinimum) + newMinimum;
+}
+
+function draw(event) {
+    if (!isDrawing) return;
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+    hue = hue < 359 ? hue + 1 : 0;
+    velocity = Math.abs(event.movementX) + Math.abs(event.movementY);
+    ctx.lineWidth = range(velocity, 0, 200, 5, 40);
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(event.offsetX, event.offsetY);
+    ctx.stroke();
+    [lastX, lastY] = [event.offsetX, event.offsetY];
+}
+canvas.addEventListener("mousemove", draw);
+canvas.addEventListener("mouseup", () => isDrawing = false);
+canvas.addEventListener("mouseout", () => isDrawing = false);
+canvas.addEventListener("mousedown", () => {
+    isDrawing = true;
+    [lastX, lastY] = [event.offsetX, event.offsetY];
+});
+</script>
+
+<style>
+  html, body {
+    margin: 0;
+  }
+</style>
+
+</body>
+</html>
