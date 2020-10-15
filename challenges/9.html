@@ -1,0 +1,81 @@
+---
+title: 14 Must Know Dev Tools Tricks
+lede: Pretty sparse on the visuals today, but again, useful to run through options when firing data into the browser console!
+date: 2020-10-15T15:01:00+0100
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+
+    // Regular
+    console.log("wibble");
+
+    // Interpolated
+    let name = prompt("What's your name?");
+    console.log("Hello, %s", name);
+
+    // Styled
+    console.log("%c Text can be styled like this too!", "font-size: 1.5em; font-family: serif; color: red");
+
+    // warning!
+    console.warn("Watch 'yer step, partner!");
+
+    // Error :|
+    console.error("Ya dun goofed!");
+
+    // Info
+    console.info("Did you know? I'm making these up as I go.");
+
+    // Testing
+    let alpha = 1;
+    let beta = 0;
+    console.assert(alpha === beta, "The values are not equal!");
+
+    // clearing
+    // console.clear();
+
+    // Viewing DOM Elements
+    const p = document.querySelector('p');
+    console.dir(p);
+
+    // Grouping together
+    for (let dog of dogs) {
+        console.groupCollapsed(dog.name);
+        console.log(`Meet ${dog.name} the dog. ${dog.name} is ${dog.age} years old, ${dog.age * 7} in dog years!`);
+        console.groupEnd(dog.name);
+    }
+
+    // counting
+    console.count(dogs[0].name);
+    console.count(dogs[0].name);
+    console.count(dogs[1].name);
+    console.count(dogs[0].name);
+    console.count(dogs[1].name);
+    console.count(dogs[0].name);
+    console.count(dogs[1].name);
+    console.count(dogs[1].name);
+    console.count(dogs[0].name);
+
+    // timing
+    console.time("Fetching data from GitHub");
+    fetch("https://api.github.com/users/chrisburnell")
+        .then(() => console.timeEnd("Fetching data"));
+
+  </script>
+</body>
+</html>
