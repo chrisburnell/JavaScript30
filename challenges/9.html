@@ -27,7 +27,7 @@ date: 2020-10-15T15:01:00+0100
 
     // Interpolated
     let name = prompt("What's your name?");
-    console.log("Hello, %s", name);
+    console.log("Hello, %s", name || "Anonymous");
 
     // Styled
     console.log("%c Text can be styled like this too!", "font-size: 1.5em; font-family: serif; color: red");
@@ -74,7 +74,7 @@ date: 2020-10-15T15:01:00+0100
     // timing
     console.time("Fetching data from GitHub");
     fetch("https://api.github.com/users/chrisburnell")
-        .then(() => console.timeEnd("Fetching data"));
+        .then(() => console.timeEnd("Fetching data from GitHub"));
 
   </script>
 </body>
