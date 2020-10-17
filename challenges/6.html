@@ -27,20 +27,11 @@ date: 2020-10-12T12:31:00+0100
 
     const cities = [];
     fetch(endpoint)
-        .then(response => {
-            if (response.ok) {
-                return response;
-            }
-            else {
-                let error = new Error(response.statusText);
-                error.response = response;
-                throw error;
-            }
-        })
         .then(response => response.json())
         .then(data => {
             cities.push(...data)
-        });
+        })
+        .catch(error => console.error(error));
 
     function showSuggestions() {
         const regex = new RegExp(this.value, 'gi');
