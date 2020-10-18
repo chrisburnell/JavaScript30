@@ -1,0 +1,126 @@
+---
+title: Custom HTML5 Video Player
+lede: Found this one a little long, but was nice to revisit controlling media. I've never built a custom set of controls before, so this has also spurned me to revisit my old <a href="https://media.chrisburnell.com">Media Controls</a> project.
+date: 2020-10-18T15:07:00+0100
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML Video Player</title>
+  <link rel="stylesheet" href="/css/11.css">
+  <style>
+    .progress__filled {
+        pointer-events: none;
+    }
+    /* Let's have some fun */
+    --playing: 1;
+  </style>
+</head>
+<body>
+
+   <div class="player">
+     <video class="player__video viewer" src="/videos/652333414.mp4"></video>
+
+     <div class="player__controls">
+       <div class="progress">
+        <div class="progress__filled"></div>
+       </div>
+       <button class="player__button toggle" title="Toggle Play"></button>
+       <input type="range" name="volume" class="player__slider" min="0" max="1" step="0.05" value="1">
+       <input type="range" name="playbackRate" class="player__slider" min="0.5" max="2" step="0.1" value="1">
+       <button data-skip="-10" class="player__button">« 10s</button>
+       <button data-skip="25" class="player__button">25s »</button>
+     </div>
+   </div>
+
+  <script>
+    const media = document.querySelector('video');
+    let currentTime = media.currentTime;
+    let duration = media.duration;
+    let muted = false;
+    let volume = media.volume;
+    let playbackRate = media.playbackRate;
+
+    function range(number, oldMinimum, oldMaximum, newMinimum, newMaximum) {
+        return (number - oldMinimum) / (oldMaximum - oldMinimum) * (newMaximum - newMinimum) + newMinimum;
+    }
+
+    const playPauseElement = document.querySelector(".player__button.toggle");
+    playPauseElement.addEventListener("click", function(event) {
+        if (media.paused) {
+            media.play();
+            this.classList.add("wizards");
+        }
+        else {
+            media.pause();
+            this.classList.remove("wizards");
+        }
+    });
+
+    const volumeElement = document.querySelector("[name=volume]");
+    media.volume = volumeElement.value;
+    volumeElement.addEventListener("change", function(event) {
+        media.volume = this.value;
+    });
+    volumeElement.addEventListener("input", function(event) {
+        media.volume = this.value;
+    });
+
+    const playbackElement = document.querySelector("[name=playbackRate]");
+    media.playbackRate = playbackElement.value;
+    playbackElement.addEventListener("change", function(event) {
+        media.playbackRate = this.value;
+    });
+    playbackElement.addEventListener("input", function(event) {
+        media.playbackRate = this.value;
+    });
+
+    const skipElements = document.querySelectorAll("[data-skip]");
+    for (let skipElement of skipElements) {
+        skipElement.addEventListener("click", function(event) {
+            if (this.dataset.skip > 0) {
+                console.log(this.dataset.skip);
+                media.currentTime = media.duration - media.currentTime < Math.abs(this.dataset.skip) ? media.duration : media.currentTime + Math.abs(this.dataset.skip);
+            }
+            else {
+                media.currentTime = media.currentTime < Math.abs(this.dataset.skip) ? 0 : media.currentTime - Math.abs(this.dataset.skip);
+            }
+        });
+    }
+
+    const scrubberElement = document.querySelector(".progress");
+    let scrubberPosition = 0;
+    media.addEventListener("timeupdate", function(event) {
+        scrubberElement.querySelector(".progress__filled").style.flexBasis = `${range(media.currentTime, 0, media.duration, 0, 100)}%`;
+        if (media.paused) {
+            playPauseElement.classList.remove("wizards");
+        } else {
+            playPauseElement.classList.add("wizards");
+        }
+    });
+    scrubberElement.addEventListener("mousemove", function(event) {
+        scrubberPosition = event.layerX;
+        if (event.buttons) {
+            media.currentTime = range(scrubberPosition, 0, scrubberElement.offsetWidth, 0, media.duration);
+        }
+    });
+    scrubberElement.addEventListener("mousedown", function(event) {
+        media.pause();
+        media.currentTime = range(scrubberPosition, 0, scrubberElement.offsetWidth, 0, media.duration);
+    });
+    scrubberElement.addEventListener("mouseup", function(event) {
+        media.play();
+    });
+
+    media.addEventListener("click", function(event) {
+        if (this.paused) {
+            this.play();
+        } else {
+            this.pause();
+        }
+    });
+
+  </script>
+</body>
+</html>

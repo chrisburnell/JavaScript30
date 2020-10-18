@@ -13,6 +13,7 @@ module.exports = function(config) {
     config.addPassthroughCopy("css");
     config.addPassthroughCopy("images");
     config.addPassthroughCopy("sounds");
+    config.addPassthroughCopy("videos");
 
     // Challenges Collection
     config.addCollection("challenges", function(collection) {
