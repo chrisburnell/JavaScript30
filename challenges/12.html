@@ -1,0 +1,30 @@
+---
+title: Key Sequence Detection (KONAMI CODE)
+lede: This was a fun exercise that I completed without going along with the video, except for the corny bit at the end!
+date: 2020-10-18T15:12:00+0100
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RAVENOUS for Key Detection</title>
+  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+<script>
+    const konami = "ravenous";
+    let pressed = [];
+
+    let normalise = (keys, key) => {
+        return [key.toLowerCase(),...keys].slice(0, konami.length);
+    };
+
+    window.addEventListener("keyup", function(event) {
+        pressed = normalise(pressed, event.key);
+        if (pressed.slice().reverse().join("") === konami) {
+            cornify_add();
+        }
+    });
+</script>
+</body>
+</html>
