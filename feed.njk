@@ -1,0 +1,36 @@
+---
+permalink: /feed.xml
+---
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"  xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+
+        <title>JS30 Challenges Feed</title>
+        <description>All of my challenges.</description>
+        <language>en</language>
+        <link>https://js30.chrisburnell.com/</link>
+        <managingEditor>me@chrisburnell.com (Chris Burnell)</managingEditor>
+        <webMaster>me@chrisburnell.com (Chris Burnell)</webMaster>
+        <image>
+            <title>JS30 Challenges Feed</title>
+            <link>https://js30.chrisburnell.com/</link>
+            <url>https://js30.chrisburnell.com/images/favicon.png</url>
+            <width>100</width>
+            <height>100</height>
+        </image>
+        <generator>Eleventy v{{ pkg['dependencies']['@11ty/eleventy'] | replace('^', '') }}</generator>
+        <atom:link rel="self" href="{{ 'https://js30.chrisburnell.com' + page.url }}" type="application/rss+xml" />
+
+        {% for item in collections.challenges %}
+            <item>
+                <title>{{ item.data.title | safe }}</title>
+                <link>{{ 'https://js30.chrisburnell.com' + item.url }}</link>
+                <guid>{{ 'https://js30.chrisburnell.com' + item.url }}</guid>
+                <pubDate>{{ item.date | rssDateFormat }}</pubDate>
+                <description>{{ item.data.lede | striptags(true) | safe }}</description>
+            </item>
+
+        {% endfor %}
+
+    </channel>
+</rss>

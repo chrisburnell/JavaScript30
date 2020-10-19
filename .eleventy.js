@@ -31,6 +31,10 @@ module.exports = function(config) {
         return DateTime.fromJSDate(new Date(value)).toFormat("yyyy-MM-dd'T'HH:mm:ss");
     });
 
+    config.addFilter("rssDateFormat", (value) => {
+        return DateTime.fromJSDate(new Date(value)).toHTTP();
+    });
+
     config.addFilter("markdownFormat", (value) => {
         return markdownIt.render(value);
     });
