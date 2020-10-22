@@ -37,11 +37,12 @@ date: 2020-10-22T12:49:00+0100
     text-shadow: 10px 10px 0 rgba(0,0,0,1);
     font-size: 100px;
   }
-  </style>
+</style>
 
 <script>
   const body = document.querySelector("body");
   const heading = document.querySelector("h1");
+  const amount = 200;
 
   function range(number, oldMinimum, oldMaximum, newMinimum, newMaximum) {
     return (number - oldMinimum) / (oldMaximum - oldMinimum) * (newMaximum - newMinimum) + newMinimum;
@@ -56,11 +57,14 @@ date: 2020-10-22T12:49:00+0100
       y = y + event.target.offsetTop;
     }
 
+    const horizontal = range(x, 0, width, amount * -1, amount);
+    const vertical = range(y, 0, height, amount * -1, amount);
+
     heading.style.textShadow = `
-      ${range(x, 0, width, -100, 100)}px ${range(y, 0, height, -100, 100)}px #e54d26,
-      ${range(x, 0, width, -100, 100) * -1}px ${range(y, 0, height, -100, 100) * -1}px #016fba,
-      ${range(x, 0, width, -100, 100) * -1}px ${range(y, 0, height, -100, 100)}px #7ab55c,
-      ${range(x, 0, width, -100, 100)}px ${range(y, 0, height, -100, 100) * -1}px #c6538c
+      ${horizontal}px ${vertical}px #e54d26,
+      ${horizontal}px ${vertical * -1}px #016fba,
+      ${horizontal * -1}px ${vertical}px #7ab55c,
+      ${horizontal * -1}px ${vertical * -1}px #c6538c
     `;
   }
 
