@@ -1,0 +1,70 @@
+---
+title: CSS Text Shadow Mouse Move Effect
+lede: I love fun little effects like these, and this one was a lot of fun to make! I also made further use of my range-mapping function.
+date: 2020-10-22T12:49:00+0100
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+  html {
+    color: black;
+    font-family: sans-serif;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+  }
+
+  h1 {
+    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    font-size: 100px;
+  }
+  </style>
+
+<script>
+  const body = document.querySelector("body");
+  const heading = document.querySelector("h1");
+
+  function range(number, oldMinimum, oldMaximum, newMinimum, newMaximum) {
+    return (number - oldMinimum) / (oldMaximum - oldMinimum) * (newMaximum - newMinimum) + newMinimum;
+  }
+
+  function bang(event) {
+    const { offsetWidth: width, offsetHeight: height } = this;
+    let { offsetX: x, offsetY: y } = event;
+
+    if (event.target !== this) {
+      x = x + event.target.offsetLeft;
+      y = y + event.target.offsetTop;
+    }
+
+    heading.style.textShadow = `
+      ${range(x, 0, width, -100, 100)}px ${range(y, 0, height, -100, 100)}px #e54d26,
+      ${range(x, 0, width, -100, 100) * -1}px ${range(y, 0, height, -100, 100) * -1}px #016fba,
+      ${range(x, 0, width, -100, 100) * -1}px ${range(y, 0, height, -100, 100)}px #7ab55c,
+      ${range(x, 0, width, -100, 100)}px ${range(y, 0, height, -100, 100) * -1}px #c6538c
+    `;
+  }
+
+  body.addEventListener("mousemove", bang);
+</script>
+</body>
+</html>
