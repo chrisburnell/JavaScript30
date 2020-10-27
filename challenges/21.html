@@ -1,6 +1,6 @@
 ---
 title: Geolocation based Speedometer and Compass
-lede: Interesting but very short challenge today; although, I can see myself using this on walks.
+lede: Interesting but very short challenge today; although, I can see myself using this on walks, if I could get it to work…
 date: 2020-10-27T08:47:00+0000
 ---
 <!DOCTYPE html>
@@ -18,6 +18,16 @@ date: 2020-10-27T08:47:00+0000
     <span class="speed-value">0</span>
     <span class="units">KM/H</span>
   </h1>
+
+  <h2 class="coordinates">
+    <div class="latitude"></div>
+    <div class="longitude"></div>
+  </h2>
+
+  <details>
+    <summary>Last console output:</summary>
+    <pre><code></code></pre>
+  </details>
 
   <style>
     html {
@@ -42,6 +52,8 @@ date: 2020-10-27T08:47:00+0000
       background-attachment: fixed;
     }
 
+    * { user-select: none }
+
     .arrow {
       width: 250px;
       overflow: hidden;
@@ -52,10 +64,25 @@ date: 2020-10-27T08:47:00+0000
 
     h1 {
       color: white;
-      font-weight: 100;
+      font-weight: 200;
       font-size: 60px;
+      margin: 0;
       display: flex;
       align-items: center;
+    }
+
+    h2 {
+      color: white;
+      font-weight: 200;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 1.5em;
+    }
+
+    details {
+        color: white;
+        font-size: 15px;
     }
 
     .units {
@@ -66,14 +93,27 @@ date: 2020-10-27T08:47:00+0000
   <script>
     const arrow = document.querySelector(".arrow");
     const speed = document.querySelector(".speed-value");
+    const outputSummary = document.querySelector("details summary");
+    const outputCode = document.querySelector("details code");
+    const latitude = document.querySelector(".latitude");
+    const longitude = document.querySelector(".longitude");
 
     navigator.geolocation.watchPosition(data => {
+        speed.textContent = !!data.coords.speed ? data.coords.speed.toFixed(2) : "?";
+        arrow.style.transform = !!data.coords.heading ? `${Math.round(data.coords.heading)}rotate(deg)` : "";
+        latitude.textContent = `Latitude: ${data.coords.latitude.toFixed(2)}`;
+        longitude.textContent = `Longitude: ${data.coords.longitude.toFixed(2)}`;
         console.log(data);
-        speed.textContent = Math.round(data.coords.speed, 2);
-        arrow.style.transform = !!data.coords.heading ? `${data.coords.heading}rotate(deg)` : "";
+        const now = new Date();
+        outputSummary.innerHTML = `Last console output: <small>${now.toISOString()}</small>`;
+        outputCode.innerHTML = `speed: ${JSON.stringify(data.coords.speed, null, 4)}
+heading: ${JSON.stringify(data.coords.heading, null, 4)}`;
     }, error => {
-        console.log(error);
         alert("This site doesn't fundamentally work without access.");
+        console.log(error);
+        const now = new Date();
+        outputSummary.innerHTML = `Last console output: <small>${now.toISOString()}</small>`;
+        outputCode.innerHTML = error.toString();
     });
   </script>
 </body>
