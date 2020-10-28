@@ -1,0 +1,60 @@
+---
+title: Follow Along Links
+lede: Nothing much to today’s challenge either; nailing down what we’ve learned, I suppose.
+date: 2020-10-28T10:19:00+0000
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>👀👀👀Follow Along Nav</title>
+  <link rel="stylesheet" href="/css/22.css">
+</head>
+<body>
+
+    <nav>
+      <ul class="menu">
+        <li><a href="#_">Home</a></li>
+        <li><a href="#_">Order Status</a></li>
+        <li><a href="#_">Tweets</a></li>
+        <li><a href="#_">Read Our History</a></li>
+        <li><a href="#_">Contact Us</a></li>
+      </ul>
+    </nav>
+
+    <div class="wrapper">
+      <p>Lorem ipsum dolor sit amet, <a href="#_">consectetur</a> adipisicing elit. Est <a href="#_">explicabo</a> unde natus necessitatibus esse obcaecati distinctio, aut itaque, qui vitae!</p>
+      <p>Aspernatur sapiente quae sint <a href="#_">soluta</a> modi, atque praesentium laborum pariatur earum <a href="#_">quaerat</a> cupiditate consequuntur facilis ullam dignissimos, aperiam quam veniam.</p>
+      <p>Cum ipsam quod, incidunt sit ex <a href="#_">tempore</a> placeat maxime <a href="#_">corrupti</a> possimus <a href="#_">veritatis</a> ipsum fugit recusandae est doloremque? Hic, <a href="#_">quibusdam</a>, nulla.</p>
+      <p>Esse quibusdam, ad, ducimus cupiditate <a href="#_">nulla</a>, quae magni odit <a href="#_">totam</a> ut consequatur eveniet sunt quam provident sapiente dicta neque quod.</p>
+      <p>Aliquam <a href="#_">dicta</a> sequi culpa fugiat <a href="#_">consequuntur</a> pariatur optio ad minima, maxime <a href="#_">odio</a>, distinctio magni impedit tempore enim repellendus <a href="#_">repudiandae</a> quas!</p>
+    </div>
+
+    <span class="highlight" aria-hidden="true"></span>
+
+    <script>
+    const anchors = document.querySelectorAll("a, button");
+    const highlight = document.querySelector(".highlight");
+
+    function highlightMe() {
+        const position = this.getBoundingClientRect();
+        console.log(this.getBoundingClientRect());
+        highlight.style.opacity = "1";
+        highlight.style.top = `${position.top + window.scrollY}px`;
+        highlight.style.height = `${position.height}px`;
+        highlight.style.left = `${position.left + window.scrollX}px`;
+        highlight.style.width = `${position.width}px`;
+    };
+
+    function highlightNothing() {
+        highlight.style.opacity = "0";
+    }
+
+    anchors.forEach(anchor => {
+        anchor.addEventListener("mouseenter", highlightMe);
+        anchor.addEventListener("focus", highlightMe);
+        anchor.addEventListener("blur", highlightNothing);
+    });
+    </script>
+</body>
+</html>
