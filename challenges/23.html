@@ -1,0 +1,91 @@
+---
+title: Speech Synthesis
+lede:
+date: 2020-10-29T10:19:00+0000
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Speech Synthesis</title>
+  <link rel="stylesheet" href="/css/23.css">
+</head>
+<body>
+
+    <div class="voiceinator">
+
+      <h1>The Voiceinator 5000</h1>
+
+      <select name="voice" id="voices">
+        <option value="">Select A Voice</option>
+      </select>
+
+      <label for="rate">Rate:</label>
+      <input name="rate" type="range" min="0.1" max="3" value="1" step="0.1">
+
+      <label for="pitch">Pitch:</label>
+
+      <input name="pitch" type="range" min="0" max="2" value="1" step="0.1">
+      <textarea name="text">I have great faith in fools - self-confidence my friends will call it.</textarea>
+      <button id="stop">Stop!</button>
+      <button id="speak">Speak</button>
+
+    </div>
+
+<script>
+    const textarea = document.querySelector("[name=text]");
+    const pitch = document.querySelector("[name=pitch]");
+    const rate = document.querySelector("[name=rate]");
+    const message = new SpeechSynthesisUtterance(textarea.value);
+    const voicesDropdown = document.querySelector("[name=voice]");
+    const options = document.querySelectorAll("[type=range], [name=text]");
+    const speakButton = document.getElementById("speak");
+    const stopButton = document.getElementById("stop");
+    const voices = speechSynthesis.getVoices();
+
+    voices
+        .filter(voice => voice.lang.includes("en"))
+        .forEach(voice => {
+            const option = document.createElement("option");
+            option.value = voice.name;
+            option.innerText = `${voice.name} (${voice.lang})`;
+            voicesDropdown.appendChild(option);
+        });
+
+    const defaultOption = voicesDropdown.querySelector("option[value='']");
+    defaultOption.disabled = true;
+    const firstOption = voicesDropdown.querySelector("option:not([value=''])");
+    firstOption.selected = true;
+
+    function updateVoices() {
+        options.forEach(option => {
+            option.addEventListener("change", function() {
+                message[this.name] = this.value;
+                if (option.type === "range") {
+                    speechSynthesis.cancel();
+                    speechSynthesis.speak(message);
+                }
+            });
+        });
+    }
+    updateVoices();
+
+    function updateVoice() {
+        speechSynthesis.cancel();
+        message.voice = voices.find(voice => voice.name === this.value);
+        speechSynthesis.speak(message);
+    }
+
+    message.text = textarea.value;
+    message.voice = voices.find(voice => voice.name === firstOption.value);
+    message.pitch = pitch.value <= pitch.max ? pitch.value : pitch.value >= pitch.min ? pitch.value : 1;
+    message.rate = rate.value <= pitch.max ? pitch.value : pitch.value >= pitch.min ? pitch.value : 1;
+
+    speechSynthesis.addEventListener("voiceschanged", updateVoices);
+    voicesDropdown.addEventListener("change", updateVoice);
+    speakButton.addEventListener("click", () => speechSynthesis.speak(message));
+    stopButton.addEventListener("click", () => speechSynthesis.cancel());
+</script>
+
+</body>
+</html>
